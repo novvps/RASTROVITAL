@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard do Paciente</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    .menu-button {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 40px;
+      left: 10px;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="menu-toggle" class="menu-button">☰</button>
+  <nav id="menu" class="menu">
+    <a href="#">Início</a>
+    <a href="#">Exames</a>
+    <a href="#">Monitoramento</a>
+  </nav>
+
+  <h1>Dashboard do Paciente</h1>
+
+  <div class="dashboard">
+    <div class="card">
+      <h2>Evolução da Glicose</h2>
+      <canvas id="glucoseChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>Colesterol</h2>
+      <canvas id="cholesterolChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>Distribuição de Índices</h2>
+      <canvas id="distributionChart"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Menu toggle
+    document.getElementById("menu-toggle").addEventListener("click", function () {
+      const menu = document.getElementById("menu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    });
+
+    // Gráfico Glicose
+    new Chart(document.getElementById("glucoseChart"), {
+      type: "line",
+      data: {
+        labels: ["Jan", "Fev", "Mar", "Abr", "Mai"],
+        datasets: [{
+          label: "Glicose (mg/dL)",
+          data: [85, 90, 78, 88, 92],
+          borderColor: "rgb(75, 192, 192)",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          tension: 0.3,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+
+    // Gráfico Colesterol
+    new Chart(document.getElementById("cholesterolChart"), {
+      type: "bar",
+      data: {
+        labels: ["Jan", "Fev", "Mar", "Abr", "Mai"],
+        datasets: [{
+          label: "Colesterol (mg/dL)",
+          data: [200, 190, 210, 180, 195],
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Gráfico de Pizza
+    new Chart(document.getElementById("distributionChart"), {
+      type: "pie",
+      data: {
+        labels: ["Glicose", "Colesterol", "Triglicerídeos"],
+        datasets: [{
+          label: \"Distribuição\",
+          data: [40, 35, 25],
+          backgroundColor: [
+            \"#36A2EB\",
+            \"#FF6384\",
+            \"#FFCE56\"
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  </script>
+</body>
+</html>
